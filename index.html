@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PlingifyPlug Assessment+ — Staff Training (Local)</title>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap');
+  :root{
+    --bg:#0b0c0d; --panel:#0f1112; --card:#131415; --muted:#9aa0a6; --text:#e6e9eb;
+    --accent:#696969; --accent-2:#696969; --glass:rgba(255,255,255,0.03);
+    --radius:18px;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Arial;color:var(--text);background:linear-gradient(180deg,#060606 0%, #0b0c0d 60%);-webkit-font-smoothing:antialiased}
+  header{padding:18px 22px;border-bottom:1px solid rgba(255,255,255,0.03);background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
+  .container{max-width:1100px;margin:22px auto;padding:18px}
+  .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo-crest{width:46px;height:46px;border-radius:10px;background:linear-gradient(180deg,#ffffff06,#00000010);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:18px}
+  h1{margin:0;font-weight:700;letter-spacing:0.6px}
+  .subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+  .card{background:linear-gradient(180deg,var(--panel),var(--card));border-radius:var(--radius);padding:18px;box-shadow:0 8px 30px rgba(0,0,0,.6);border:1px solid rgba(255,255,255,0.02)}
+  .grid{display:grid;gap:12px}
+  .flex{display:flex;gap:12px;align-items:center}
+  button{background:linear-gradient(180deg,var(--accent),var(--accent-2));border:0;color:#0b0c0d;padding:10px 14px;border-radius:10px;font-weight:600;cursor:pointer;box-shadow:0 6px 18px rgba(124, 124, 124, 0.12)}
+  .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text);padding:8px 12px;border-radius:10px}
+  .btn-danger{background:#2b1212;color:#ffd6d6}
+  input,select,textarea{background:transparent;border:1px solid rgba(255,255,255,0.04);padding:10px;border-radius:10px;color:var(--text);width:100%}
+  label{font-size:13px;color:var(--muted);display:block;margin-bottom:6px}
+  .muted{color:var(--muted);font-size:13px}
+  .home-actions{display:flex;gap:12px;flex-wrap:wrap}
+  .hidden{display:none !important}
+  .small{font-size:12px;color:var(--muted)}
+  .list{list-style:none;padding:0;margin:0}
+  .list li{padding:8px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+  .pill{background:rgba(255,255,255,0.02);padding:6px 10px;border-radius:999px;font-size:13px}
+  .two-col{display:grid;grid-template-columns:1fr 360px;gap:12px}
+  .center{text-align:center}
+  .logo-preview{max-width:220px;max-height:64px;border-radius:8px;display:block}
+  table{width:100%;border-collapse:collapse}
+  table th,table td{padding:10px;border-bottom:1px solid rgba(255,255,255,0.02);text-align:left}
+  .muted-quiet{color:rgba(255,255,255,0.06)}
+  footer{margin-top:30px;color:var(--muted);font-size:13px;text-align:center}
+  /* responsiveness */
+  @media (max-width:880px){
+    .two-col{grid-template-columns:1fr}
+    .container{padding:12px}
+    .logo-preview{max-width:160px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="container topbar">
+    <div class="brand">
+      <div class="logo-crest">PA+</div>
+      <div>
+        <h1>PlingifyPlug Assessment+</h1>
+        <div class="subtitle">Premium local staff training • demo beta (browser-only)</div>
+      </div>
+    </div>
+
+    <div class="flex">
+      <div id="top-user-info" class="muted small hidden"></div>
+      <button id="home-btn" class="btn-ghost hidden" onclick="goHome()">Home</button>
+      <button id="logout-btn" class="btn-ghost hidden" onclick="logout()">Logout</button>
+    </div>
+  </div>
+</header>
+
+<main class="container">
+  <!-- HOME (initial menu) -->
+  <section id="home" class="card">
+    <div class="flex" style="justify-content:space-between;align-items:center">
+      <div>
+        <h2 style="margin:0">Welcome — Choose access</h2>
+        <div class="muted" style="margin-top:6px">Create a company or log in as Admin/Staff. Data is stored locally in your browser.</div>
+      </div>
+      <div class="center">
+        <div class="pill small muted">Local demo — no server</div>
+      </div>
+    </div>
+
+    <hr style="margin:16px 0;border-color:rgba(255,255,255,0.02)">
+
+    <div class="home-actions" style="margin-top:8px">
+      <button onclick="showScreen('create')">Create Company / Owner</button>
+      <button onclick="startLogin('admin')">Admin Login</button>
+      <button onclick="startLogin('staff')">Staff Login</button>
+      <button onclick="showScreen('import-export')" class="btn-ghost">Import / Export</button>
+    </div>
+
+    <div style="margin-top:12px" class="muted">Company name is the unique identifier (case-insensitive). Owner can add admins & staff and build quizzes.</div>
+  </section>
+
+  <!-- CREATE -->
+  <section id="create" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 style="margin:0">Create Company & Owner</h2>
+        <div class="muted">Create a company — this user becomes the Owner. Owner can add Admins & Staff later.</div>
+      </div>
+      <div class="flex">
+        <button class="btn-ghost" onclick="showScreen('home')">Back</button>
+        <button id="owner-login-btn" class="btn-ghost" onclick="ownerLogin()">Owner Login</button>
+      </div>
+    </div>
+
+    <div class="two-col" style="margin-top:12px">
+      <div>
+        <label>Company Name</label>
+        <input id="create-company-name" placeholder="Example Ltd" />
+        <label style="margin-top:10px">Owner Email</label>
+        <input id="create-owner-email" placeholder="owner@company.com" />
+        <label style="margin-top:10px">Password</label>
+        <input id="create-owner-password" type="password" />
+        <label style="margin-top:10px">Repeat Password</label>
+        <input id="create-owner-password2" type="password" />
+        <label style="margin-top:10px">Company Logo (optional)</label>
+        <input id="create-company-logo" type="file" accept="image/*" />
+        <div style="margin-top:12px" class="flex">
+          <button onclick="createCompany()">Create Company</button>
+          <button class="btn-ghost" onclick="clearCreateForm()">Clear</button>
+        </div>
+      </div>
+
+      <div class="card center">
+        <img id="preview-logo" src="" class="logo-preview hidden" alt="logo preview" />
+        <h3 id="preview-company-name" class="muted">Preview</h3>
+        <div class="small muted">Owner can manage accounts and create training modules once company is created.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPANY SELECT -->
+  <section id="company-select" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 id="company-select-title" style="margin:0">Login</h2>
+        <div class="muted">Enter the company name to continue.</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showScreen('home')">Back</button></div>
+    </div>
+
+    <label style="margin-top:10px">Company Name</label>
+    <input id="company-name-input" placeholder="Example Ltd" />
+    <div style="margin-top:10px" class="flex">
+      <button id="company-next-btn" onclick="onCompanyNext()">Next</button>
+      <button class="btn-ghost" onclick="showScreen('home')">Cancel</button>
+    </div>
+    <div id="company-notice" class="muted" style="margin-top:8px"></div>
+  </section>
+
+  <!-- LOGIN -->
+  <section id="login-screen" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 id="login-title" style="margin:0">Login</h2>
+        <div id="company-login-info" class="muted">Company: —</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showScreen('company-select')">Back</button></div>
+    </div>
+
+    <label style="margin-top:10px">Email</label>
+    <input id="login-email" placeholder="you@company.com" />
+    <label style="margin-top:10px">Password</label>
+    <input id="login-password" type="password" />
+    <div style="margin-top:8px" class="flex" >
+      <label class="muted small" style="display:flex;align-items:center;gap:8px"><input type="checkbox" id="remember-me"> Remember me</label>
+      <div style="flex:1"></div>
+      <button onclick="doLogin()">Login</button>
+    </div>
+    <div id="login-error" class="muted" style="margin-top:8px"></div>
+  </section>
+
+  <!-- DASHBOARD -->
+  <section id="dashboard" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div style="display:flex;gap:12px;align-items:center">
+        <img id="dash-logo" src="" class="logo-preview hidden" alt="company logo" />
+        <div>
+          <div id="dash-company" style="font-weight:700"></div>
+          <div id="dash-role" class="muted small"></div>
+        </div>
+      </div>
+
+      <div class="flex">
+        <div id="dash-user-info"></div>
+        <button class="btn-ghost" onclick="showScreen('company-settings')">Company Settings</button>
+      </div>
+    </div>
+
+    <hr style="margin:12px 0;border-color:rgba(255,255,255,0.02)" />
+
+    <div id="owner-controls" class="hidden">
+      <h3 style="margin:0 0 8px 0">Owner</h3>
+      <div class="flex">
+        <button onclick="showScreen('owner-add-accounts')">Add Admin / Staff</button>
+        <button onclick="showScreen('manage-accounts')">Manage Accounts</button>
+        <button onclick="showScreen('content-builder')">Create Training Modules</button>
+        <button onclick="showScreen('reports')">Reports</button>
+      </div>
+    </div>
+
+    <div id="admin-controls" class="hidden" style="margin-top:12px">
+      <h3 style="margin:0 0 8px 0">Admin</h3>
+      <div class="flex">
+        <button onclick="showScreen('manage-accounts')">Manage Admins & Staff</button>
+        <button onclick="showScreen('content-builder')">Create / Edit Modules</button>
+        <button onclick="showScreen('reports')">Reports</button>
+      </div>
+    </div>
+
+    <div id="staff-controls" class="hidden" style="margin-top:12px">
+      <h3 style="margin:0 0 8px 0">Staff</h3>
+      <div class="flex">
+        <button onclick="showScreen('training-list')">View Training Modules</button>
+        <button onclick="showScreen('staff-reports')">My Reports</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- OWNER ADD ACCOUNTS -->
+  <section id="owner-add-accounts" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 style="margin:0">Add Account</h2>
+        <div class="muted">Choose role and credentials.</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showDashboard()">Back</button></div>
+    </div>
+
+    <label style="margin-top:10px">Role</label>
+    <select id="new-account-role"><option value="admin">Admin</option><option value="staff">Staff</option></select>
+    <label style="margin-top:10px">Email</label>
+    <input id="new-account-email" placeholder="user@company.com" />
+    <label style="margin-top:10px">Password</label>
+    <input id="new-account-pass" type="password" />
+    <div style="margin-top:10px" class="flex">
+      <button onclick="createAccount()">Create Account</button>
+      <button class="btn-ghost" onclick="document.getElementById('new-account-email').value='';document.getElementById('new-account-pass').value=''">Clear</button>
+    </div>
+    <div id="owner-add-notice" class="muted" style="margin-top:8px"></div>
+  </section>
+
+  <!-- MANAGE ACCOUNTS -->
+  <section id="manage-accounts" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 style="margin:0">Manage Accounts</h2>
+        <div class="muted">Edit, change password, deactivate/activate, or delete accounts.</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showDashboard()">Back</button></div>
+    </div>
+
+    <div id="accounts-list" style="margin-top:12px"></div>
+  </section>
+
+  <!-- CONTENT BUILDER -->
+  <section id="content-builder" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 style="margin:0">Training Modules</h2>
+        <div class="muted">Create modules, add quiz questions, control visibility.</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showDashboard()">Back</button></div>
+    </div>
+
+    <div style="margin-top:12px" class="two-col">
+      <div>
+        <label>Title</label><input id="module-title" placeholder="Fire Safety" />
+        <label style="margin-top:10px">Description</label><input id="module-desc" placeholder="Short description" />
+        <label style="margin-top:10px">Upload Image/Video</label><input id="module-media" type="file" accept="image/*,video/*" />
+        <label style="margin-top:10px">Visibility</label>
+        <select id="module-visibility"><option value="public">Public (visible to Staff)</option><option value="admin">Admin-only</option></select>
+        <div style="margin-top:12px" class="flex">
+          <button onclick="createModule()">Save Module</button>
+          <button class="btn-ghost" onclick="clearModuleForm()">Clear</button>
+        </div>
+
+        <hr style="margin:12px 0;border-color:rgba(255,255,255,0.02)">
+
+        <h3 style="margin:0 0 8px 0">Editing Module</h3>
+        <div id="module-edit-panel" class="muted small">Open a module to edit questions.</div>
+      </div>
+
+      <div>
+        <h3 style="margin:0 0 8px 0">Existing Modules</h3>
+        <div id="modules-list" style="max-height:520px;overflow:auto"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODULE EDIT -->
+  <section id="module-edit" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 id="module-edit-title" style="margin:0">Module</h2>
+        <div id="module-edit-meta" class="muted small"></div>
+      </div>
+      <div><button class="btn-ghost" onclick="showScreen('content-builder')">Back</button></div>
+    </div>
+
+    <div class="two-col" style="margin-top:12px">
+      <div>
+        <label>Question Text</label>
+        <textarea id="quiz-question" rows="3"></textarea>
+        <label style="margin-top:10px">Answer options (one per line)</label>
+        <textarea id="quiz-answers" rows="4" placeholder="Option A\nOption B\nOption C"></textarea>
+        <label style="margin-top:10px">Index of correct answer (1-based)</label>
+        <input id="quiz-correct" placeholder="1" />
+        <div style="margin-top:12px" class="flex">
+          <button onclick="addQuizToModule()">Add Question</button>
+          <button class="btn-ghost" onclick="clearQuestionForm()">Clear</button>
+        </div>
+      </div>
+
+      <div>
+        <h3 style="margin:0 0 8px 0">Questions</h3>
+        <ul id="module-questions" class="list" style="max-height:420px;overflow:auto"></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRAINING LIST (staff) -->
+  <section id="training-list" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 style="margin:0">Training Modules</h2>
+        <div class="muted">Available modules for you to view and take quizzes.</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showDashboard()">Back</button></div>
+    </div>
+
+    <div id="staff-modules" style="margin-top:12px"></div>
+  </section>
+
+  <!-- TAKE QUIZ -->
+  <section id="take-quiz" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 id="quiz-module-title" style="margin:0">Quiz</h2>
+        <div id="quiz-desc" class="muted small"></div>
+      </div>
+      <div><button class="btn-ghost" onclick="showScreen('training-list')">Back</button></div>
+    </div>
+
+    <div id="quiz-content" style="margin-top:12px"></div>
+    <div id="quiz-controls" style="margin-top:12px" class="flex"></div>
+  </section>
+
+  <!-- REPORTS (admin/owner) -->
+  <section id="reports" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 style="margin:0">Reports</h2>
+        <div class="muted">Overview of attempts & performance.</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showDashboard()">Back</button></div>
+    </div>
+
+    <div id="reports-content" style="margin-top:12px"></div>
+  </section>
+
+  <!-- STAFF personal reports -->
+  <section id="staff-reports" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 style="margin:0">My Reports</h2>
+        <div class="muted">Your quiz attempts and scores.</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showDashboard()">Back</button></div>
+    </div>
+
+    <div id="my-reports" style="margin-top:12px"></div>
+  </section>
+
+  <!-- COMPANY SETTINGS -->
+  <section id="company-settings" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 style="margin:0">Company Settings</h2>
+        <div class="muted">Change company name or logo (owner/admin only; renaming may conflict).</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showDashboard()">Back</button></div>
+    </div>
+  
+    <label style="margin-top:10px">Company Name</label>
+    <input id="settings-company-name" />
+    <label style="margin-top:10px">Company Logo</label>
+    <input id="settings-company-logo" type="file" accept="image/*" />
+    <div style="margin-top:12px" class="flex">
+      <button id="save-company-settings">Save Settings</button>
+      <button class="btn-ghost" id="revert-company-settings">Revert</button>
+    </div>
+  </section>
+  
+  <script>
+    // Example user session
+    const userSession = { user: { role: 'staff' } }; // change to 'owner' or 'admin' for access
+  
+    const allowedRoles = ['owner', 'admin'];
+    const saveBtn = document.getElementById('save-company-settings');
+    const revertBtn = document.getElementById('revert-company-settings');
+  
+    if (!allowedRoles.includes(userSession.user?.role)) {
+      // Staff cannot save/revert
+      saveBtn.onclick = () => alert('Access Denied: Only owner/admin can change settings.');
+      revertBtn.onclick = () => alert('Access Denied: Only owner/admin can change settings.');
+    } else {
+      // Normal functionality for owner/admin
+      saveBtn.onclick = saveCompanySettings;
+      revertBtn.onclick = revertSettings;
+    }
+  </script>
+  
+  
+  <!-- IMPORT / EXPORT -->
+  <section id="import-export" class="card hidden">
+    <div class="flex" style="justify-content:space-between">
+      <div>
+        <h2 style="margin:0">Import / Export</h2>
+        <div class="muted">Backup or restore local company data (JSON).</div>
+      </div>
+      <div><button class="btn-ghost" onclick="showScreen('home')">Back</button></div>
+    </div>
+
+    <div style="margin-top:12px">
+      <button onclick="exportData()">Export All Companies (JSON)</button>
+      <div style="margin-top:10px">
+        <label>Import JSON</label>
+        <input id="import-file" type="file" accept="application/json" />
+        <div style="margin-top:8px" class="flex">
+          <button onclick="importData()">Import</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="muted" style="margin-top:24px">PlingifyPlug Assessment+ — local demo beta. For production, integrate a backend (recommended).</footer>
+</main>
+
+<script>
+
+    
+/*
+  LuxTrain single-file app
+  - Data stored under localStorage key: 'luxtrain_companies_v1'
+  - Cookie: 'luxtrain_session' stores base64 JSON {companyKey,email,passHash} for remember-me
+  - Passwords hashed client-side via SubtleCrypto (SHA-256)
+  - Roles: owner, admin, staff
+*/
+
+const STORAGE_KEY = 'luxtrain_companies_v1';
+const COOKIE_KEY = 'luxtrain_session';
+
+// Helpers
+function loadCompanies(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}') } catch(e){ return {} } }
+function saveCompanies(obj){ localStorage.setItem(STORAGE_KEY, JSON.stringify(obj)) }
+function uid(prefix='id'){ return prefix + '_' + Math.random().toString(36).slice(2,9) }
+function normalizeCompanyName(n){ return (n||'').trim().toLowerCase() }
+function now(){ return Date.now() }
+async function sha256Hex(text){
+  const enc = new TextEncoder(); const data = enc.encode(text);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  const arr = Array.from(new Uint8Array(hash));
+  return arr.map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function setCookie(name, value, days=30){
+  const d = new Date(); d.setTime(d.getTime() + (days*24*60*60*1000));
+  document.cookie = `${name}=${encodeURIComponent(value)}; expires=${d.toUTCString()}; path=/`;
+}
+function getCookie(name){
+  const pairs = document.cookie.split(';').map(s=>s.trim()).filter(Boolean);
+  for(const p of pairs){
+    const [k,v] = p.split('=');
+    if(k === name) return decodeURIComponent(v || '');
+  }
+  return null;
+}
+function delCookie(name){ document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;` }
+function fileToDataURL(file){ return new Promise((res,rej)=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.onerror=rej; r.readAsDataURL(file); }) }
+
+// SPA state
+let session = { companyKey:null, company:null, user:null, roleContext:null };
+
+/* ---------- UI helpers ---------- */
+function showScreen(id){
+  document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
+  const el = document.getElementById(id);
+  if(el) el.classList.remove('hidden');
+  // top UI
+  const logged = !!session.user;
+  document.getElementById('home-btn').classList.toggle('hidden', !logged);
+  document.getElementById('logout-btn').classList.toggle('hidden', !logged);
+  document.getElementById('top-user-info').classList.toggle('hidden', !logged);
+  if(logged) document.getElementById('top-user-info').innerHTML = `<div style="text-align:right"><strong>${session.user.email}</strong><div class="small muted">${session.user.role.toUpperCase()}</div></div>`;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function goHome(){
+  // show main home menu but keep session (user stays logged in)
+  showScreen('home');
+}
+
+/* ---------- Boot: auto login from cookie ---------- */
+async function tryAutoLogin(){
+  const cookie = getCookie(COOKIE_KEY);
+  if(!cookie) return;
+  try {
+    const val = JSON.parse(atob(cookie));
+    if(!val.companyKey || !val.email || !val.passHash) return;
+    const comps = loadCompanies();
+    const comp = comps[val.companyKey];
+    if(!comp) return;
+    const acct = comp.accounts[val.email];
+    if(!acct) return;
+    if(acct.passHash !== val.passHash) return;
+    session.companyKey = val.companyKey; session.company = comp; session.user = acct;
+    renderDashboardForUser();
+    // show dashboard directly
+    showScreen('dashboard');
+  } catch(e){}
+}
+tryAutoLogin();
+
+/* ---------- Create company & owner ---------- */
+document.getElementById('create-company-logo').addEventListener('change', async(e)=>{
+  const f = e.target.files[0]; if(!f) return;
+  const data = await fileToDataURL(f);
+  document.getElementById('preview-logo').src=data; document.getElementById('preview-logo').classList.remove('hidden');
+  document.getElementById('preview-company-name').textContent = document.getElementById('create-company-name').value || 'Preview';
+});
+
+function clearCreateForm(){
+  document.getElementById('create-company-name').value='';
+  document.getElementById('create-owner-email').value='';
+  document.getElementById('create-owner-password').value='';
+  document.getElementById('create-owner-password2').value='';
+  document.getElementById('create-company-logo').value='';
+  document.getElementById('preview-logo').src=''; document.getElementById('preview-logo').classList.add('hidden');
+  document.getElementById('preview-company-name').textContent = 'Preview';
+}
+
+async function createCompany(){
+  const name = document.getElementById('create-company-name').value.trim();
+  const email = (document.getElementById('create-owner-email').value || '').trim().toLowerCase();
+  const pass = document.getElementById('create-owner-password').value;
+  const pass2 = document.getElementById('create-owner-password2').value;
+  if(!name || !email || !pass) return alert('Company name, owner email and password are required.');
+  if(pass !== pass2) return alert('Passwords do not match.');
+  const key = normalizeCompanyName(name);
+  const comps = loadCompanies();
+  if(comps[key] && !confirm('Company with this name already exists. Create an additional owner account for this company?')) return;
+  if(!comps[key]) comps[key] = { name, logo:null, createdAt: now(), accounts:{}, modules:[], results:[] };
+  // logo
+  if(document.getElementById('create-company-logo').files[0]){
+    comps[key].logo = await fileToDataURL(document.getElementById('create-company-logo').files[0]);
+  }
+  const passHash = await sha256Hex(pass);
+  comps[key].accounts[email] = { email, role:'owner', passHash, createdAt: now(), active:true };
+  saveCompanies(comps);
+  alert('Company created and owner account added.');
+  // Auto-login owner
+  session.companyKey = key; session.company = comps[key]; session.user = comps[key].accounts[email]; session.roleContext = 'create';
+  renderDashboardForUser();
+  showScreen('dashboard');
+}
+
+/* Owner login via Create screen */
+async function ownerLogin(){
+  const name = document.getElementById('create-company-name').value.trim();
+  const email = (document.getElementById('create-owner-email').value || '').trim().toLowerCase();
+  const pass = document.getElementById('create-owner-password').value;
+  if(!name || !email || !pass) return alert('Company name, owner email and password required.');
+  const key = normalizeCompanyName(name);
+  const comps = loadCompanies();
+  if(!comps[key]) return alert('Company not found.');
+  const acct = comps[key].accounts[email];
+  if(!acct || acct.role !== 'owner') return alert('Owner account not found.');
+  const passHash = await sha256Hex(pass);
+  if(passHash !== acct.passHash) return alert('Invalid password.');
+  session.companyKey = key; session.company = comps[key]; session.user = acct; session.roleContext = 'create';
+  renderDashboardForUser();
+  showScreen('dashboard');
+}
+
+/* ---------- Company selection & Login ---------- */
+function startLogin(role){
+  session.roleContext = role; // 'admin' or 'staff'
+  document.getElementById('company-select-title').textContent = role === 'admin' ? 'Admin — choose company' : 'Staff — choose company';
+  document.getElementById('company-name-input').value=''; document.getElementById('company-notice').textContent='';
+  showScreen('company-select');
+}
+
+function onCompanyNext(){
+  const name = document.getElementById('company-name-input').value.trim();
+  if(!name) return document.getElementById('company-notice').textContent = 'Enter company name.';
+  const key = normalizeCompanyName(name);
+  const comps = loadCompanies();
+  if(!comps[key]) { document.getElementById('company-notice').textContent = 'Company not found.'; return; }
+  document.getElementById('company-login-info').textContent = 'Company: ' + comps[key].name;
+  document.getElementById('login-email').value=''; document.getElementById('login-password').value=''; document.getElementById('login-error').textContent='';
+  session.companyKey = key; session.company = comps[key];
+  document.getElementById('login-title').textContent = session.roleContext === 'admin' ? 'Admin Login' : 'Staff Login';
+  showScreen('login-screen');
+}
+
+async function doLogin(){
+  const email = (document.getElementById('login-email').value || '').trim().toLowerCase();
+  const pass = document.getElementById('login-password').value;
+  const remember = document.getElementById('remember-me').checked;
+  if(!email || !pass) return document.getElementById('login-error').textContent = 'Email & password required.';
+  const comps = loadCompanies();
+  const comp = comps[session.companyKey];
+  if(!comp) return document.getElementById('login-error').textContent = 'Company not loaded.';
+  const acct = comp.accounts[email];
+  if(!acct || !acct.active) return document.getElementById('login-error').textContent = 'Account not found or inactive.';
+  // role check
+  if(session.roleContext === 'admin' && !(acct.role === 'admin' || acct.role === 'owner')) return document.getElementById('login-error').textContent = 'Not an admin account.';
+  if(session.roleContext === 'staff' && acct.role !== 'staff') return document.getElementById('login-error').textContent = 'Not a staff account.';
+  const passHash = await sha256Hex(pass);
+  if(passHash !== acct.passHash) return document.getElementById('login-error').textContent = 'Invalid password.';
+  // success
+  session.company = comp; session.user = acct;
+  // set cookie if remember
+  if(remember){
+    const payload = { companyKey: session.companyKey, email: acct.email, passHash: acct.passHash };
+    setCookie(COOKIE_KEY, btoa(JSON.stringify(payload)), 30);
+  } else {
+    delCookie(COOKIE_KEY);
+  }
+  renderDashboardForUser();
+  showScreen('dashboard');
+}
+
+/* Logout */
+function logout(){
+  session = { companyKey:null, company:null, user:null, roleContext:null };
+  delCookie(COOKIE_KEY);
+  showScreen('home');
+}
+
+/* ---------- Dashboard render ---------- */
+function renderDashboardForUser(){
+  const comp = session.company; const user = session.user;
+  if(!comp || !user) return;
+  document.getElementById('dash-company').textContent = comp.name;
+  document.getElementById('dash-role').textContent = user.role.toUpperCase();
+  if(comp.logo){ document.getElementById('dash-logo').src = comp.logo; document.getElementById('dash-logo').classList.remove('hidden'); } else document.getElementById('dash-logo').classList.add('hidden');
+  document.getElementById('dash-user-info').innerHTML = `<div class="small">${user.email}</div>`;
+  // show controls
+  document.getElementById('owner-controls').classList.toggle('hidden', user.role !== 'owner');
+  document.getElementById('admin-controls').classList.toggle('hidden', user.role !== 'admin');
+  document.getElementById('staff-controls').classList.toggle('hidden', user.role !== 'staff');
+  // top UI
+  document.getElementById('top-user-info').classList.remove('hidden');
+  document.getElementById('home-btn').classList.remove('hidden');
+  document.getElementById('logout-btn').classList.remove('hidden');
+}
+
+/* ---------- Accounts management ---------- */
+async function createAccount(){
+  const role = document.getElementById('new-account-role').value;
+  const email = (document.getElementById('new-account-email').value || '').trim().toLowerCase();
+  const pass = document.getElementById('new-account-pass').value;
+  if(!email || !pass) return document.getElementById('owner-add-notice').textContent = 'Email and password required.';
+  if(!session.companyKey) return alert('Company not loaded.');
+  const comps = loadCompanies(); const comp = comps[session.companyKey];
+  const passHash = await sha256Hex(pass);
+  comp.accounts[email] = { email, role, passHash, createdAt: now(), active:true };
+  saveCompanies(comps);
+  document.getElementById('owner-add-notice').textContent = `${role} account created: ${email}`;
+  // clear
+  document.getElementById('new-account-email').value=''; document.getElementById('new-account-pass').value='';
+  renderAccountsList();
+}
+
+function renderAccountsList(){
+  const comp = session.company; if(!comp) return;
+  const el = document.getElementById('accounts-list'); el.innerHTML = '';
+  const keys = Object.keys(comp.accounts).sort();
+  keys.forEach(email=>{
+    const a = comp.accounts[email];
+    const div = document.createElement('div'); div.className='card'; div.style.marginBottom='10px';
+    div.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <strong>${a.email}</strong>
+        <div class="small muted">${a.role} ${a.active? '':'(inactive)'}</div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn-ghost" onclick="promptChangePassword('${email}')">Change Pass</button>
+        <button class="btn-ghost" onclick="toggleActive('${email}')">${a.active? 'Deactivate':'Activate'}</button>
+        ${session.user.role === 'owner' && a.role !== 'owner' ? `<button class="btn-danger" onclick="deleteAccount('${email}')">Delete</button>` : ''}
+        ${session.user.role === 'owner' && a.role === 'owner' && a.email !== session.user.email ? `<button class="btn-ghost" onclick="transferOwner('${email}')">Make Owner</button>` : ''}
+      </div>
+    </div>`;
+    el.appendChild(div);
+  });
+}
+
+function promptChangePassword(email){
+  const val = prompt('Enter new password for ' + email);
+  if(!val) return;
+  sha256Hex(val).then(hash=>{
+    const comps = loadCompanies(); const comp = comps[session.companyKey];
+    if(!comp.accounts[email]) return alert('Account missing.');
+    comp.accounts[email].passHash = hash; saveCompanies(comps);
+    alert('Password updated.');
+    // If changed current user's password and "remember me" cookie exists, update cookie
+    if(session.user && session.user.email === email){
+      const cookie = getCookie(COOKIE_KEY);
+      if(cookie){
+        const payload = { companyKey: session.companyKey, email: session.user.email, passHash: hash };
+        setCookie(COOKIE_KEY, btoa(JSON.stringify(payload)), 30);
+      }
+    }
+    renderAccountsList();
+  });
+}
+
+function toggleActive(email){
+  const comps = loadCompanies(); const comp = comps[session.companyKey];
+  if(!comp.accounts[email]) return;
+  // prevent owner deactivating themselves
+  if(email === session.user.email && comp.accounts[email].role === 'owner' && comp.accounts[email].active){
+    return alert('Owner cannot deactivate themselves.');
+  }
+  // only owner or admin may toggle (admins cannot toggle owners)
+  if(session.user.role === 'admin' && comp.accounts[email].role === 'owner') return alert('Admins cannot toggle owners.');
+  comp.accounts[email].active = !comp.accounts[email].active;
+  saveCompanies(comps);
+  session.company = comp;
+  renderAccountsList();
+}
+
+function deleteAccount(email){
+  if(!confirm('Delete account ' + email + '?')) return;
+  const comps = loadCompanies(); const comp = comps[session.companyKey];
+  if(!comp.accounts[email]) return alert('Missing account.');
+  // only owner may delete accounts (owner cannot delete themselves)
+  if(session.user.role !== 'owner') return alert('Only owner can delete accounts.');
+  if(email === session.user.email) return alert('Owner cannot delete their own account.');
+  delete comp.accounts[email]; saveCompanies(comps);
+  session.company = comp;
+  renderAccountsList();
+}
+
+function transferOwner(email){
+  if(!confirm('Make ' + email + ' the owner? Current owner will become admin.')) return;
+  const comps = loadCompanies(); const comp = comps[session.companyKey];
+  if(!comp.accounts[email]) return alert('Missing account.');
+  // swap roles
+  const prevOwner = Object.values(comp.accounts).find(a=>a.role==='owner');
+  if(prevOwner) prevOwner.role = 'admin';
+  comp.accounts[email].role = 'owner';
+  saveCompanies(comps);
+  session.company = comp;
+  // if current user changed, update session.user
+  if(session.user.email === prevOwner.email) session.user = comp.accounts[session.user.email];
+  alert('Owner transferred.');
+  renderAccountsList();
+}
+
+/* ---------- Content & modules ---------- */
+async function createModule(){
+  const title = document.getElementById('module-title').value.trim();
+  const desc = document.getElementById('module-desc').value.trim();
+  const file = document.getElementById('module-media').files[0];
+  const visibility = document.getElementById('module-visibility').value;
+  if(!title) return alert('Title required.');
+  const comps = loadCompanies(); const comp = comps[session.companyKey];
+  const mod = { id: uid('mod'), title, desc, mediaDataUrl:null, visibility, createdAt: now(), questions: [] };
+  if(file) mod.mediaDataUrl = await fileToDataURL(file);
+  comp.modules.push(mod); saveCompanies(comps);
+  session.company = comp;
+  document.getElementById('module-title').value=''; document.getElementById('module-desc').value=''; document.getElementById('module-media').value='';
+  renderModulesList();
+}
+
+function renderModulesList(){
+  const comp = session.company; if(!comp) return;
+  const el = document.getElementById('modules-list'); el.innerHTML = '';
+  comp.modules.slice().reverse().forEach(mod=>{
+    const div = document.createElement('div'); div.className='card'; div.style.marginBottom='10px';
+    const vis = mod.visibility === 'public' ? 'Public' : 'Admin-only';
+    div.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+      <div>
+        <strong>${mod.title}</strong>
+        <div class="small muted">${mod.desc || ''}</div>
+        <div class="small muted">Visibility: ${vis} • Questions: ${mod.questions.length}</div>
+      </div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-ghost" onclick='openModule("${mod.id}")'>Open</button>
+        <button class="btn-ghost" onclick='editModule("${mod.id}")'>Edit</button>
+        <button class="btn-danger" onclick='deleteModule("${mod.id}")'>Delete</button>
+      </div>
+    </div>`;
+    el.appendChild(div);
+  });
+}
+
+function openModule(id){
+  const comp = session.company; if(!comp) return;
+  const mod = comp.modules.find(m=>m.id===id); if(!mod) return alert('Module missing.');
+  // open quiz editor view
+  document.getElementById('module-edit-title').textContent = 'Module: ' + mod.title;
+  document.getElementById('module-edit-meta').textContent = `${mod.questions.length} questions • Visibility: ${mod.visibility === 'public' ? 'Public' : 'Admin-only'}`;
+  document._editingModuleId = id;
+  // render questions
+  const qlist = document.getElementById('module-questions'); qlist.innerHTML = '';
+  mod.questions.forEach((q, idx)=>{
+    const li = document.createElement('li');
+    li.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="max-width:70%"><strong>Q${idx+1}.</strong> ${escapeHtml(q.q)} <div class="small muted">${q.answers.length} options</div></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn-ghost" onclick="populateQuestionForEdit(${idx})">Edit</button>
+        <button class="btn-danger" onclick="deleteQuestion(${idx})">Delete</button>
+      </div>
+    </div>`;
+    qlist.appendChild(li);
+  });
+  showScreen('module-edit');
+}
+
+function editModule(id){
+  const comp = session.company; const mod = comp.modules.find(m=>m.id===id);
+  if(!mod) return;
+  // populate form to edit: we'll allow quick title/desc/visibility update by deleting and creating new with same id (simple)
+  if(!confirm('Open module in editor? Current module title/desc will be loaded into the create form for quick edits.')) return;
+  document.getElementById('module-title').value = mod.title;
+  document.getElementById('module-desc').value = mod.desc;
+  document.getElementById('module-visibility').value = mod.visibility;
+  // remove existing module (we'll recreate on save with same id)
+  const comps = loadCompanies(); const comp2 = comps[session.companyKey];
+  comp2.modules = comp2.modules.filter(m=>m.id !== id);
+  // set a temporary edit id so when creating new module we reuse id
+  document._editingModuleIdCreate = id;
+  saveCompanies(comps);
+  renderModulesList();
+  showScreen('content-builder');
+}
+
+function deleteModule(id){
+  if(!confirm('Delete module and all questions?')) return;
+  const comps = loadCompanies(); const comp = comps[session.companyKey];
+  comp.modules = comp.modules.filter(m=>m.id !== id);
+  saveCompanies(comps);
+  session.company = comp;
+  renderModulesList();
+}
+
+/* Module question management */
+function clearQuestionForm(){ document.getElementById('quiz-question').value=''; document.getElementById('quiz-answers').value=''; document.getElementById('quiz-correct').value=''; }
+function populateQuestionForEdit(idx){
+  const id = document._editingModuleId; const comp = session.company; const mod = comp.modules.find(m=>m.id===id);
+  if(!mod) return;
+  const q = mod.questions[idx];
+  document.getElementById('quiz-question').value = q.q;
+  document.getElementById('quiz-answers').value = q.answers.join('\n');
+  document.getElementById('quiz-correct').value = (q.correctIndex + 1);
+  // remove the question so adding will replace
+  mod.questions.splice(idx,1);
+  saveCompanies(loadCompanies());
+  openModule(id);
+}
+function addQuizToModule(){
+  const id = document._editingModuleId; if(!id) return alert('No module selected.');
+  const qText = document.getElementById('quiz-question').value.trim();
+  const raw = (document.getElementById('quiz-answers').value || '').trim().split('\n').map(s=>s.trim()).filter(Boolean);
+  const correct = parseInt(document.getElementById('quiz-correct').value);
+  if(!qText || raw.length < 2 || isNaN(correct) || correct < 1 || correct > raw.length) return alert('Question, at least 2 answers and a valid correct answer index required.');
+  const comps = loadCompanies(); const comp = comps[session.companyKey];
+  const mod = comp.modules.find(m=>m.id===id);
+  mod.questions.push({ q: qText, answers: raw, correctIndex: correct-1 });
+  saveCompanies(comps);
+  session.company = comp;
+  openModule(id);
+}
+function deleteQuestion(idx){
+  if(!confirm('Delete question?')) return;
+  const id = document._editingModuleId; const comps = loadCompanies(); const comp = comps[session.companyKey];
+  const mod = comp.modules.find(m=>m.id===id);
+  mod.questions.splice(idx,1); saveCompanies(comps);
+  session.company = comp; openModule(id);
+}
+
+/* ---------- Staff training list & quiz taking ---------- */
+function renderTrainingList(){
+  const comp = session.company; if(!comp) return;
+  const el = document.getElementById('staff-modules'); el.innerHTML = '';
+  // show modules visible to staff: visibility public OR if logged-in is admin/owner show all
+  comp.modules.forEach(mod=>{
+    const canView = (mod.visibility === 'public') || (session.user.role === 'admin' || session.user.role === 'owner');
+    if(!canView) return;
+    const card = document.createElement('div'); card.className='card'; card.style.marginBottom='10px';
+    let mediaHtml = '';
+    if(mod.mediaDataUrl){
+      if(mod.mediaDataUrl.startsWith('data:video')) mediaHtml = `<video controls style="max-width:100%;border-radius:8px"><source src="${mod.mediaDataUrl}" /></video>`;
+      else mediaHtml = `<img src="${mod.mediaDataUrl}" style="max-width:100%;border-radius:8px" />`;
+    }
+    card.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="max-width:70%">
+        <strong>${mod.title}</strong>
+        <div class="small muted">${mod.desc || ''}</div>
+        ${mediaHtml}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <button onclick='startQuiz("${mod.id}")'>Take Quiz</button>
+        <button class="btn-ghost" onclick='viewModuleDetails("${mod.id}")'>View Details</button>
+      </div>
+    </div>`;
+    el.appendChild(card);
+  });
+}
+
+function viewModuleDetails(id){
+  const comp = session.company; const m = comp.modules.find(x=>x.id===id);
+  if(!m) return alert('not found');
+  alert(`Module: ${m.title}\n\nDescription: ${m.desc || '-'}\nQuestions: ${m.questions.length}\nVisibility: ${m.visibility}`);
+}
+
+let currentQuiz = { moduleId:null, qIndex:0, answers:[] };
+function startQuiz(moduleId){
+  const comp = session.company; const mod = comp.modules.find(m=>m.id===moduleId);
+  if(!mod) return alert('Module not found.');
+  currentQuiz = { moduleId, qIndex:0, answers:[] };
+  document.getElementById('quiz-module-title').textContent = 'Quiz — ' + mod.title;
+  document.getElementById('quiz-desc').textContent = mod.desc || '';
+  renderQuizQuestion();
+  showScreen('take-quiz');
+}
+
+function renderQuizQuestion(){
+  const comp = session.company; const mod = comp.modules.find(m=>m.id===currentQuiz.moduleId);
+  const idx = currentQuiz.qIndex;
+  const q = mod.questions[idx];
+  const container = document.getElementById('quiz-content');
+  if(!q){ container.innerHTML = '<div class="muted">No questions in this module.</div>'; document.getElementById('quiz-controls').innerHTML=''; return; }
+  let html = `<div><strong>Q${idx+1}.</strong> ${escapeHtml(q.q)}</div>`;
+  html += `<div style="margin-top:8px">`;
+  q.answers.forEach((a,i)=>{
+    const id = `opt_${i}`;
+    html += `<div style="margin-bottom:8px"><label><input type="radio" name="quiz-opt" value="${i}"> ${escapeHtml(a)}</label></div>`;
+  });
+  html += `</div>`;
+  container.innerHTML = html;
+  const controls = document.getElementById('quiz-controls'); controls.innerHTML = '';
+  const prevBtn = document.createElement('button'); prevBtn.textContent='Prev'; prevBtn.className='btn-ghost'; prevBtn.onclick = ()=>{ if(currentQuiz.qIndex>0){ currentQuiz.qIndex--; renderQuizQuestion(); } };
+  const nextBtn = document.createElement('button'); nextBtn.textContent = idx < mod.questions.length-1 ? 'Next' : 'Submit'; nextBtn.onclick = ()=>{ const checked = document.querySelector('input[name="quiz-opt"]:checked'); if(!checked){ alert('Choose an option'); return; } currentQuiz.answers[idx] = parseInt(checked.value); if(idx < mod.questions.length-1){ currentQuiz.qIndex++; renderQuizQuestion(); } else finishQuiz(); };
+  controls.appendChild(prevBtn); controls.appendChild(nextBtn);
+}
+
+function finishQuiz(){
+  const comps = loadCompanies(); const comp = comps[session.companyKey];
+  const mod = comp.modules.find(m=>m.id===currentQuiz.moduleId);
+  if(!mod) return alert('Module missing');
+  let correct = 0; const details = [];
+  mod.questions.forEach((q,i)=>{
+    const selected = currentQuiz.answers[i] ?? null;
+    const ok = selected === q.correctIndex;
+    if(ok) correct++;
+    details.push({ qIndex:i, selected });
+  });
+  const result = { userEmail: session.user.email, moduleId: mod.id, moduleTitle: mod.title, score: correct, total: mod.questions.length, timestamp: now(), details };
+  comp.results.push(result);
+  saveCompanies(comps);
+  session.company = comp;
+  alert(`Quiz complete — ${correct}/${mod.questions.length}`);
+  showScreen('dashboard');
+}
+
+/* ---------- Reports ---------- */
+function renderReports(){
+  const el = document.getElementById('reports-content'); el.innerHTML = '';
+  const comp = session.company; if(!comp) return el.innerHTML = '<div class="muted">No data</div>';
+  if(comp.modules.length === 0) return el.innerHTML = '<div class="muted">No modules created.</div>';
+  // table per module showing last attempts
+  const table = document.createElement('table');
+  table.innerHTML = `<thead><tr><th>Module</th><th>Users</th><th>Latest Attempts</th></tr></thead>`;
+  const tbody = document.createElement('tbody');
+  comp.modules.forEach(mod=>{
+    const rs = comp.results.filter(r=>r.moduleId===mod.id);
+    const users = [...new Set(rs.map(r=>r.userEmail))];
+    const latest = rs.sort((a,b)=>b.timestamp-a.timestamp).slice(0,5).map(r=>`${r.userEmail} — ${r.score}/${r.total}`).join('<br>');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${mod.title}</td><td>${users.join('<br>') || '-'}</td><td>${latest || '-'}</td>`;
+    tbody.appendChild(tr);
+  });
+  table.appendChild(tbody);
+  el.appendChild(table);
+}
+
+/* Staff personal reports */
+function renderMyReports(){
+  const comp = session.company; const el = document.getElementById('my-reports'); el.innerHTML = '';
+  if(!comp) return;
+  const my = comp.results.filter(r=>r.userEmail === session.user.email).sort((a,b)=>b.timestamp-a.timestamp);
+  if(my.length === 0) return el.innerHTML = '<div class="muted">No attempts yet</div>';
+  my.forEach(r=>{
+    const d = new Date(r.timestamp).toLocaleString();
+    const card = document.createElement('div'); card.className='card'; card.style.marginBottom='10px';
+    card.innerHTML = `<strong>${r.moduleTitle}</strong><div class="small muted">${d}</div><div>Score: ${r.score}/${r.total}</div>`;
+    el.appendChild(card);
+  });
+}
+
+/* ---------- Company settings ---------- */
+document.getElementById('settings-company-logo').addEventListener('change', async(e)=>{
+  const f = e.target.files[0]; if(!f) return;
+  document._settingsPendingLogo = await fileToDataURL(f);
+});
+function saveCompanySettings(){
+  const name = document.getElementById('settings-company-name').value.trim();
+  if(!name) return alert('Company name required.');
+  const comps = loadCompanies(); const oldKey = session.companyKey; const newKey = normalizeCompanyName(name);
+  // rename?
+  if(newKey !== oldKey){
+    if(comps[newKey]) return alert('Another company exists with that name.');
+    comps[newKey] = comps[oldKey];
+    delete comps[oldKey];
+    session.companyKey = newKey;
+  }
+  comps[session.companyKey].name = name;
+  if(document._settingsPendingLogo) comps[session.companyKey].logo = document._settingsPendingLogo;
+  saveCompanies(comps);
+  session.company = comps[session.companyKey];
+  alert('Saved');
+  renderDashboardForUser();
+}
+function revertSettings(){
+  if(!session.company) return;
+  document.getElementById('settings-company-name').value = session.company.name || '';
+  document._settingsPendingLogo = null;
+}
+
+/* ---------- Import/Export ---------- */
+function exportData(){
+  const data = localStorage.getItem(STORAGE_KEY) || '{}';
+  const blob = new Blob([data], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'luxtrain_companies.json'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+}
+
+function importData(){
+  const f = document.getElementById('import-file').files[0];
+  if(!f) return alert('Choose a JSON file.');
+  const rdr = new FileReader();
+  rdr.onload = (ev)=>{
+    try {
+      const parsed = JSON.parse(ev.target.result);
+      if(!confirm('Import will merge into existing local data. Continue?')) return;
+      const existing = loadCompanies();
+      const merged = Object.assign({}, existing, parsed);
+      saveCompanies(merged);
+      alert('Imported (merged).');
+    } catch(e){
+      alert('Invalid JSON.');
+    }
+  };
+  rdr.readAsText(f);
+}
+
+/* ---------- Small helpers ---------- */
+function escapeHtml(s){ return (s||'').replace(/[&<>"']/g, function(m){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]; }); }
+
+/* ---------- Wiring: show screens and refreshers ---------- */
+window.showScreen = showScreen;
+window.startLogin = startLogin;
+window.onCompanyNext = onCompanyNext;
+window.doLogin = doLogin;
+window.logout = logout;
+window.createCompany = createCompany;
+window.ownerLogin = ownerLogin;
+window.createAccount = createAccount;
+window.renderAccountsList = renderAccountsList;
+window.openModule = openModule;
+window.editModule = editModule;
+window.deleteModule = deleteModule;
+window.startQuiz = startQuiz;
+window.viewModuleDetails = viewModuleDetails;
+window.showDashboard = ()=>{ renderDashboardForUser(); showScreen('dashboard'); };
+
+setInterval(()=>{
+  // sync session.company with storage in other tabs
+  if(session.companyKey){
+    const comps = loadCompanies();
+    session.company = comps[session.companyKey] || session.company;
+  }
+  // auto refresh views when visible
+  if(!document.getElementById('content-builder').classList.contains('hidden')) renderModulesList();
+  if(!document.getElementById('manage-accounts').classList.contains('hidden')) renderAccountsList();
+  if(!document.getElementById('training-list').classList.contains('hidden')) renderTrainingList();
+  if(!document.getElementById('reports').classList.contains('hidden')) renderReports();
+  if(!document.getElementById('staff-reports').classList.contains('hidden')) renderMyReports();
+  if(!document.getElementById('module-edit').classList.contains('hidden') && document._editingModuleId) openModule(document._editingModuleId);
+  // populate settings form
+  if(!document.getElementById('company-settings').classList.contains('hidden') && session.company){
+    document.getElementById('settings-company-name').value = session.company.name || '';
+  }
+}, 700);
+
+/* ---------- Init UI ---------- */
+showScreen('home');
+
+</script>
+</body>
+</html> 
